@@ -1,80 +1,70 @@
 #include <iostream>
-#include <iomanip>
-using namespace std;
+const int SIZE = 8;
 
-void showMenu();
-void showFees(double, int);
-
-int main()
+void bubbleSort(int arr[], int n)
 {
-    //! This will be unchangable value using for program
-    int choice;
-    int month;
-    double payment;
-    
-    const double Adult = 40.0;
-    const double Senior = 30.0;
-    const double Child = 20.0;
-
-    
-    cout<<fixed<<showpoint<<setprecision(2);
-
-    do 
+    for (int i = 0; i < n - 1; i++)
     {
-        showMenu(); //display the menu
-        std::cin >> choice;
-        
-        //! This will be validate the choice and make a loop if need for using again
-        while(choice < 1 || choice > 4) 
+        bool swapped = false;
+        for (int j = 0; j < n - 1; j++)
         {
-           std::cout << "Please choose the option 1,2,3, or 4: ";
-           std::cin >> choice;
-        }   
+            if (arr[j] > arr[j + 1])
+            {
+                swapped = true;
+                std::swap(arr[j], arr[j + 1]);
+            }
+        }
+        if (!swapped)
+            break;
+        ;
+    }
+}
 
-           if(choice != 4)
-           {
+void display(int arr[], int size)
+{
+    std::cout << "Sorted array: ";
+    for (int i = 0; i < size; i++)
+    {
+        std::cout << " " << arr[i];
+    }
+    std::cout << std::endl;
+}
 
-            std::cout<<"For how many months?: ";
-            std::cin>>month;
+int binarySearch(int arr[], int left, int right, int value)
+{
+    while (left <= right)
+    {
+        int i = left + (right - left) / 2;
 
-            //! Case of choice when the choice is valid
-              switch (choice)
-              {
-                case 1:
-                showFees(Adult, month);
-                break;
-                
-                case 2:
-                showFees(Senior, month);
-                break;
+        if (arr[i] == value)
+            return i;
 
-                case 3:
-                showFees(Child, month);
-                break;
-           
-              }
+        else if (arr[i] < value)
+            left = i + 1;
 
-           }
-        
+        else
+            right = i - 1;
+    }
 
-    } while(choice != 4);
+    return -1;
+}
+
+int main(void)
+{
+    int arr[SIZE] = {32, 54, 64, 12, 23, 13, 53, 75};
+    int N = sizeof(arr) / sizeof(arr[0]);
+    int value;
+
+    bubbleSort(arr, N);
+    display(arr, N);
+
+    std::cout << "Please enter number you want to find: ";
+    std::cin >> value;
+
+    int result = binarySearch(arr, 0, N - 1, value);
+    (result == -1)
+        ? std::cout << "No value found"
+        : std::cout << "The value found in the position of " << (result + 1);
 
     return 0;
-
 }
-
-void showMenu()
-{
-    std::cout << '\t' << '\t' <<"WELCOME TO OUR HEALTH CLUB MEMBERSHIP MENU"<<'\n';
-    std::cout << "--------------------------------------------" << '\n';
-
-    std::cout << "Please choose 1 if you want to use the Adult program" << '\n';
-    std::cout << "Please choose 2 if you want to use the Senior program" << '\n';
-    std::cout << "Please choose 3 if you want to use the Child program" << '\n';
-    std::cout << "Please choose 4 if you want to exit the program" << '\n';
-}
-
-void showFees(double rate, int month)
-{
-   std::cout << "Your payment will be: " << (rate * month) << std::endl ;
-}   
