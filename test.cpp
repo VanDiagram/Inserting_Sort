@@ -1,35 +1,90 @@
-//this programme will calculate how many each store has widget left
 #include <iostream>
 
-int main()
+void InsertionSort(int arr[], int n)
 {
-  int sold, begInv, store1, store2, store3;
+    int j, key;
+    for(int i = 0; i < n; i++)
+    {
+        key = arr[i];
+        j = i - 1;
+        while(j >= 0 && arr[j] > key)
+        {
+            arr[j + 1] = arr[j];
+            j = j - 1;
+        }
+        arr[j + 1] = key;
+    }
+}
 
-  std::cout<<"Please enter how many amount of widget begInv has: " << '\n';
-  std::cin>> begInv;
+void display(int arr[], int size)
+{
+    std::cout << "Sorted array: ";
+    for(int i = 0; i < size; i++)
+    {
+        std::cout << arr[i] << " ";
+    }
+    std::cout << std::endl;
+}
 
-//3 stores have the same start as 100.
-  store1 = store2 = store3 = begInv;
+int BinarySearch(int arr[], int l, int r, int value)
+{
+    int m;
+    while(l <= r)
+    {
+        m = l + (r - l) / 2;
 
-  //store1 in first week
-  std::cout<<"How many widget sold in first week of store 1: ";
-  std::cin >> sold;
-  std::cout<<(store1 -= sold)<< '\n';
+        if(arr[m] == value)
+        {
+            return m;
+        }
 
-  //store2 in first week
-  std::cout<<"How many widget sold in first week of store 2: ";
-  std::cin >> sold;
-  std::cout<< (store2 -= sold)<< '\n';
+        else if(arr[m] < value)
+        {
+            r = m - 1;
+        }
 
-  //store3 in first week
-  std::cout<<"How many widget sold in first week of store 3: ";
-  std::cin >> sold;
-   std::cout<< (store3 -= sold)<< '\n';
+        else
+        {
+            l = m + 1;
+        }
+    }
+    return - 1;
+}
 
-  //The return result
-  std::cout<<store1 << '\n';
-  std::cout<<store2 << '\n';
-  std::cout<<store3 << '\n';
+void give_value(int &value)
+{
+    std::cout << "Please enter your value: ";
+    std::cin >> value;
+}
 
-  return 0;
+void returnValue(int result, int &value)
+{
+    if(result == -1)
+    {
+        std::cout << " Cannot find the value in array";
+    }
+    else
+    {
+        std::cout << "The value " << value << " at index: " << (result + 1) << std::endl; 
+    }
+
+}
+
+int main(void)
+{
+
+    int arr[] = {23, 12, 5, 7, 15, 19};
+    int n = sizeof(arr) / sizeof(arr[0]);
+    int value;
+
+    InsertionSort(arr, n);
+    display(arr, n);
+
+    give_value(value);
+    
+
+    int result = BinarySearch(arr, 0, n - 1, value);
+    returnValue(result, value);
+
+    return 0;
 }
